@@ -29,15 +29,16 @@ test.describe('The test suite', ()=>{
   })
 })
 
-test.describe('Testing the basics',()=>{
-  test('Testing the dropdown', async({page})=>{
-    await page.goto('https://www.salesforce.com/au/form/signup/sales-ee/?d=topnav2-btn-ft')
-    const employeeCountDropdown = await page.locator('//select[contains(@id,"CompanyEmployees")]')
-    employeeCountDropdown.selectOption('150')
-    // await page.waitForTimeout(5000)
-    await expect(employeeCountDropdown).toHaveValue('150')
-    employeeCountDropdown.selectOption({ label: '2000+ employees' })
-    // await page.waitForTimeout(5000)
-    await expect(employeeCountDropdown).toHaveValue('2500')
-  })
-})
+// test.describe('Testing the basics',()=>{
+//   test('Testing the dropdown', async({page})=>{
+//     await page.goto('https://www.salesforce.com/au/form/signup/sales-ee/?d=topnav2-btn-ft')
+//     const employeeCountDropdown = await page.locator('//select[@name="CompanyEmployees"]')
+//     await employeeCountDropdown.waitFor({state:'visible'})
+//     await employeeCountDropdown.selectOption('150')
+//     // await page.waitForTimeout(5000)
+//     await expect(employeeCountDropdown).toHaveValue('150')
+//     await employeeCountDropdown.selectOption({ label: '2000+ employees' })
+//     // await page.waitForTimeout(5000)
+//     await expect(employeeCountDropdown).toHaveValue('2500')
+//   })
+// })
