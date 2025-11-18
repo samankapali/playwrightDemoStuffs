@@ -3,21 +3,21 @@ import {test, expect} from '@playwright/test'
 test.describe('The test suite', ()=>{
   test('The demo test', async({page})=>{
     await page.goto('https://demo.playwright.dev/todomvc')
-    const taskInputField = await page.getByPlaceholder('What needs to be done?')
+    const taskInputField = page.getByPlaceholder('What needs to be done?')
 
-    taskInputField.fill('Demo Task C')
-    taskInputField.press('Enter')
-    taskInputField.fill('Demo Task B')
-    taskInputField.press('Enter')
-    taskInputField.fill('Demo Task A')
-    taskInputField.press('Enter')
+    await taskInputField.fill('Demo Task C')
+    await taskInputField.press('Enter')
+    await taskInputField.fill('Demo Task B')
+    await taskInputField.press('Enter')
+    await taskInputField.fill('Demo Task A')
+    await taskInputField.press('Enter')
 
-    const allTask = await page.locator('.todo-list')
+    const allTask = page.locator('.todo-list')
     await expect(allTask).toContainText('Demo Task A')
 
-    const taskToDelete = await page.locator('.todo-list li').filter({hasText: 'Demo Task A'})
-    const taskToCheck = await page.locator('.todo-list li').filter({hasText:'Demo Task C'})
-    const nonTask = await page.locator('.todo-list li').filter({hasText:'Demo Task B'})
+    const taskToDelete = page.locator('.todo-list li').filter({hasText: 'Demo Task A'})
+    const taskToCheck = page.locator('.todo-list li').filter({hasText:'Demo Task C'})
+    const nonTask = page.locator('.todo-list li').filter({hasText:'Demo Task B'})
     
     await taskToDelete.hover()
     await taskToDelete.locator('.destroy').click()
@@ -29,16 +29,18 @@ test.describe('The test suite', ()=>{
   })
 })
 
-// test.describe('Testing the basics',()=>{
-//   test('Testing the dropdown', async({page})=>{
-//     await page.goto('https://www.salesforce.com/au/form/signup/sales-ee/?d=topnav2-btn-ft')
-//     const employeeCountDropdown = await page.locator('//select[@name="CompanyEmployees"]')
-//     await employeeCountDropdown.waitFor({state:'visible'})
-//     await employeeCountDropdown.selectOption('150')
-//     // await page.waitForTimeout(5000)
-//     await expect(employeeCountDropdown).toHaveValue('150')
-//     await employeeCountDropdown.selectOption({ label: '2000+ employees' })
-//     // await page.waitForTimeout(5000)
-//     await expect(employeeCountDropdown).toHaveValue('2500')
-//   })
-// })
+test.describe('Testing the basics',()=>{
+  test('Testing the dropdown', async({page})=>{
+    await page.goto('https://www.salesforce.com/au/form/signup/sales-ee/?d=topnav2-btn-ft')
+    const employeeCountDropdown = page.locator('//select[@name="CompanyEmployees"]')
+    
+    await expect(async () =>{
+      await employeeCountDropdown.waitFor({state:'visible', timeout:500})
+      await employeeCountDropdown.selectOption('150')
+      await expect(employeeCountDropdown).toHaveValue('150')
+      await employeeCountDropdown.selectOption({ label: '2000+ employees' })
+      await expect(employeeCountDropdown).toHaveValue('2500')
+    }).toPass()
+    
+  })
+})
